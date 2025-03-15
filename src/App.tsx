@@ -12,9 +12,9 @@ const InstagramProfileMockup = () => {
   }
 
   const defaultProfile = {
-    username: 'murillo.smn',
-    verified: false,
-    name: 'Murillo Salles Nogueira',
+    username: 'famous_person',
+    verified: true,
+    name: 'Famous Person',
     followers: '1,1 mi',
     following: '811',
     bio: [
