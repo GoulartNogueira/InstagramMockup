@@ -1,6 +1,5 @@
 import React from 'react';
-import { Camera, Home, Search, PlusSquare, Play, User, MoreHorizontal, ChevronLeft, UserPlus, BadgeCheck, Badge, Copy, Grid } from 'lucide-react';
-import { ProfileData, Highlight } from '../types';
+import { Camera, Home, Search, PlusSquare, Play, User, MoreHorizontal, ChevronLeft, UserPlus, BadgeCheck, Badge, Grid } from 'lucide-react';
 
 // Profile Header Component
 interface ProfileHeaderProps {
