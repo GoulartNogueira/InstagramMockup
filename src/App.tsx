@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Camera, Home, Search, PlusSquare, Play, User, MoreHorizontal, ChevronLeft, PlusCircle, UserPlus, BadgeCheck, BadgeCheckIcon, Badge, Copy, Grid } from 'lucide-react';
+import { Camera, Home, Search, PlusSquare, Play, User, MoreHorizontal, ChevronLeft, UserPlus, BadgeCheck, Badge, Copy, Grid } from 'lucide-react';
 
 const InstagramProfileMockup = () => {
   const [showConfig, setShowConfig] = useState(false);
@@ -122,7 +122,7 @@ const InstagramProfileMockup = () => {
 
   const handleFileUpload = (event: Event, type: string, index = null) => {
     try {
-      const file = event.target.files[0];
+      const file = (event.target as HTMLInputElement).files?.[0];
       if (!file) return;
 
       const reader = new FileReader();
@@ -130,6 +130,10 @@ const InstagramProfileMockup = () => {
       reader.onload = () => {
         try {
           const imageDataUrl = reader.result;
+          if (typeof imageDataUrl !== 'string') {
+            console.error("Unexpected non-string result from FileReader");
+            return;
+          }
 
           if (type === 'profile') {
             handleChange('profilePicture', imageDataUrl);
@@ -369,8 +373,8 @@ const InstagramProfileMockup = () => {
               <label className="block text-sm font-medium mb-1">Posts</label>
               <input
                 type="text"
-                value={profileData.posts}
-                onChange={(e) => handleChange('posts', e.target.value)}
+                value={profileData.posts_images.length.toString()}
+                readOnly
                 className="w-full p-2 border rounded"
               />
             </div>
