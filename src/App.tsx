@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Camera, Home, Search, PlusSquare, Play, User, MoreHorizontal, ChevronLeft, PlusCircle, UserPlus } from 'lucide-react';
+import { Camera, Home, Search, PlusSquare, Play, User, MoreHorizontal, ChevronLeft, PlusCircle, UserPlus, BadgeCheck, BadgeCheckIcon, Badge, Copy, Grid } from 'lucide-react';
 
 const InstagramProfileMockup = () => {
   const [showConfig, setShowConfig] = useState(false);
@@ -25,8 +25,8 @@ const InstagramProfileMockup = () => {
     ],
     profilePicture: 'https://picsum.photos/id/1005/200',
     highlights: [
-      { name: 'Novo', image: '' },
-      { name: '.', image: 'https://picsum.photos/id/1036/200' },
+      { name: 'Pet', image: 'https://picsum.photos/id/237/200' },
+      { name: 'Viagens', image: 'https://picsum.photos/id/1036/200' },
     ],
     posts_images: postsImages
   };
@@ -228,7 +228,7 @@ const InstagramProfileMockup = () => {
             <span className="text-xs mt-1">Novo</span>
           </div>
         )}
-        {profileData.highlights.filter((h, i) => !showAddNew || i > 0).map((highlight, index) => (
+        {profileData.highlights.map((highlight, index) => (
           <div key={`highlight-${index}`} className="flex flex-col items-center">
             <div className="w-16 h-16 rounded-full border border-gray-300 overflow-hidden">
               <img
@@ -248,12 +248,7 @@ const InstagramProfileMockup = () => {
   const ContentTabs = () => (
     <div className="border-t border-gray-300 flex justify-around">
       <button className="py-2 px-4 border-b-2 border-black">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="3" width="7" height="7"></rect>
-          <rect x="14" y="3" width="7" height="7"></rect>
-          <rect x="14" y="14" width="7" height="7"></rect>
-          <rect x="3" y="14" width="7" height="7"></rect>
-        </svg>
+        <Grid size={24} />
       </button>
       <button className="py-2 px-4">
         <Play size={24} />
@@ -277,11 +272,7 @@ const InstagramProfileMockup = () => {
             />
             {/* Multi-image indicator for some posts */}
             {index % 3 === 0 && (
-              <div className="absolute top-2 right-2 bg-white bg-opacity-80 rounded p-0.5">
-                <svg width="16" height="16" viewBox="0 0 48 48">
-                  <path d="M34.8 29.7V11c0-2.9-2.3-5.2-5.2-5.2H11c-2.9 0-5.2 2.3-5.2 5.2v18.7c0 2.9 2.3 5.2 5.2 5.2h18.7c2.8 0 5.1-2.3 5.1-5.2zM42.2 37V18.3h-5.9v11.4c0 5-4.1 9.1-9.1 9.1H16v.2c0 2.9 2.3 5.2 5.2 5.2h18.7c2.9 0 5.2-2.3 5.2-5.2H42z" fill="currentColor" />
-                </svg>
-              </div>
+                <Copy size={16} className="absolute top-2 right-2" color="white" />
             )}
           </div>
         ))}
@@ -607,12 +598,19 @@ const InstagramProfileMockup = () => {
           <ChevronLeft size={24} />
           <span className="ml-4 text-lg font-semibold">{profileData.username}</span>
           {profileData.verified && (
-            <span className="ml-1">
-              <div className="w-4 h-4 text-white">
-                <svg viewBox="0 0 40 40" fill="#0095F6" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd" />
-                </svg>
-              </div>
+            <span className="relative inline-block ml-1 w-4 h-4">
+              <BadgeCheck
+              className="absolute inset-0"
+              size={16}
+              fill="#0095F6"
+              color="#FFFFFF"
+              />
+              <Badge
+              className="absolute inset-0"
+              size={16}
+              strokeWidth={3}
+              color="#0095F6"
+              />
             </span>
           )}
         </div>
