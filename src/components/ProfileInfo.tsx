@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { User } from 'lucide-react';
 import { ProfileData } from '../types';
 
@@ -61,6 +62,15 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
   isOwnProfile,
   navigateToConfig
 }) => {
+  const navigate = useNavigate();
+  
+  const goToConfig = () => {
+    if (navigateToConfig) {
+      navigateToConfig();
+    } else {
+      navigate('/config');
+    }
+  };
   return (
     <div className="px-4 py-2">
       <div className="flex items-start">
@@ -83,7 +93,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
         <div className="grid grid-cols-3 gap-2 mt-3">
           <button 
             className="bg-gray-100 py-1.5 px-2 rounded-md text-sm font-medium col-span-1"
-            onClick={navigateToConfig}
+            onClick={goToConfig}
           >
             Editar
           </button>

@@ -1,25 +1,20 @@
 import React from 'react';
-import { ProfileData } from '../types';
-import ProfileHeader from './ProfileHeader';
-import ProfileInfo from './ProfileInfo';
-import StoryHighlights from './StoryHighlights';
-import ContentTabs from './ContentTabs';
-import PostsGrid from './PostsGrid';
-import BottomNavigation from './BottomNavigation';
+import { useNavigate } from 'react-router-dom';
+import { useProfileContext } from '../context/ProfileContext';
+import ProfileHeader from '../components/ProfileHeader';
+import ProfileInfo from '../components/ProfileInfo';
+import StoryHighlights from '../components/StoryHighlights';
+import ContentTabs from '../components/ContentTabs';
+import PostsGrid from '../components/PostsGrid';
+import BottomNavigation from '../components/BottomNavigation';
 
-interface ProfileViewProps {
-  profileData: ProfileData;
-  viewingOwnProfile: boolean;
-  setViewingOwnProfile: (value: boolean) => void;
-  navigateToConfig: () => void;
-}
-
-const ProfileView: React.FC<ProfileViewProps> = ({
-  profileData,
-  viewingOwnProfile,
-  setViewingOwnProfile,
-  navigateToConfig
-}) => {
+const ProfileView: React.FC = () => {
+  const { profileData, viewingOwnProfile, setViewingOwnProfile } = useProfileContext();
+  const navigate = useNavigate();
+  
+  const navigateToConfig = () => {
+    navigate('/config');
+  };
   
   // Instagram Profile View (Own Profile)
   const OwnProfileView = () => (

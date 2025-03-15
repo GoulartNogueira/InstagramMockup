@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import ProfileView from './components/ProfileView';
-import ConfigPage from './components/ConfigPage';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import ProfileView from './pages/ProfileView';
+import ConfigPage from './pages/ConfigPage';
 import { ProfileData, defaultProfile } from './types';
+import { ProfileContext } from './context/ProfileContext';
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<'profile' | 'config'>('profile');
   const [viewingOwnProfile, setViewingOwnProfile] = useState(true);
   const [profileData, setProfileData] = useState<ProfileData>(defaultProfile);
 
@@ -26,38 +27,28 @@ const App: React.FC = () => {
     localStorage.setItem('instagramProfileData', JSON.stringify(profileData));
   }, [profileData]);
 
-  // Navigate to profile view
-  const navigateToProfile = () => {
-    setCurrentPage('profile');
-  };
-
-  // Navigate to config page
-  const navigateToConfig = () => {
-    setCurrentPage('config');
-  };
-
-  // Update profile data from config page
+  // Update profile data
   const updateProfileData = (newData: ProfileData) => {
     setProfileData(newData);
   };
 
   return (
-    <div className="h-screen overflow-hidden">
-      {currentPage === 'profile' ? (
-        <ProfileView 
-          profileData={profileData} 
-          viewingOwnProfile={viewingOwnProfile}
-          setViewingOwnProfile={setViewingOwnProfile}
-          navigateToConfig={navigateToConfig}
-        />
-      ) : (
-        <ConfigPage 
-          profileData={profileData} 
-          updateProfileData={updateProfileData} 
-          navigateToProfile={navigateToProfile}
-        />
-      )}
-    </div>
+    <ProfileContext.Provider 
+      value={{ 
+        profileData, 
+        updateProfileData, 
+        viewingOwnProfile, 
+        setViewingOwnProfile 
+      }}
+    >
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<ProfileView />} />
+          <Route path="/config" element={<ConfigPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </ProfileContext.Provider>
   );
 };
 

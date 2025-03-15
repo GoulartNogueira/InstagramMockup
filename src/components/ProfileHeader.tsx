@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MoreHorizontal, ChevronLeft, UserPlus, PlusSquare, BadgeCheck, Badge } from 'lucide-react';
 
 interface ProfileHeaderProps {
@@ -11,6 +12,16 @@ interface ProfileHeaderProps {
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ 
   username, isOwnProfile, verified, navigateToConfig 
 }) => {
+  const navigate = useNavigate();
+  
+  const goToConfig = () => {
+    if (navigateToConfig) {
+      navigateToConfig();
+    } else {
+      navigate('/config');
+    }
+  };
+  
   if (isOwnProfile) {
     return (
       <div className="flex justify-between items-center px-4 py-3 border-b border-gray-200">
@@ -24,7 +35,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             <UserPlus size={24} />
           </div>
           <PlusSquare size={24} />
-          <button onClick={navigateToConfig}>
+          <button onClick={goToConfig}>
             <MoreHorizontal size={24} />
           </button>
         </div>

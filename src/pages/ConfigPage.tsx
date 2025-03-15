@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Camera, ArrowLeft, Save } from 'lucide-react';
 import { ProfileData, Highlight } from '../types';
+import { useProfileContext } from '../context/ProfileContext';
 
-interface ConfigPageProps {
-  profileData: ProfileData;
-  updateProfileData: (data: ProfileData) => void;
-  navigateToProfile: () => void;
-}
-
-const ConfigPage: React.FC<ConfigPageProps> = ({
-  profileData,
-  updateProfileData,
-  navigateToProfile
-}) => {
+const ConfigPage: React.FC = () => {
+  const { profileData, updateProfileData } = useProfileContext();
+  const navigate = useNavigate();
+  
   // Create a local copy of profile data to work with
   const [localData, setLocalData] = useState<ProfileData>({...profileData});
   const [bioText, setBioText] = useState<string>(profileData.bio.join('\n'));
@@ -101,7 +96,12 @@ const ConfigPage: React.FC<ConfigPageProps> = ({
   // Save changes and navigate back
   const saveChanges = () => {
     updateProfileData(localData);
-    navigateToProfile();
+    navigate('/');
+  };
+
+  // Cancel changes and navigate back
+  const cancelChanges = () => {
+    navigate('/');
   };
 
   return (
@@ -109,7 +109,7 @@ const ConfigPage: React.FC<ConfigPageProps> = ({
       {/* Header */}
       <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3 flex justify-between items-center">
         <button 
-          onClick={navigateToProfile}
+          onClick={cancelChanges}
           className="flex items-center text-blue-500"
         >
           <ArrowLeft size={20} className="mr-1" />
