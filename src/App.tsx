@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Camera, Home, Search, PlusSquare, Play, User, MoreHorizontal, ChevronLeft, PlusCircle, UserPlus } from 'lucide-react';
 
 const InstagramProfileMockup = () => {
   const [showConfig, setShowConfig] = useState(false);
   const [viewingOwnProfile, setViewingOwnProfile] = useState(true);
-  
+
   // Default profile data
   const postsImages: string[] = [];
   for (let i = 10; i <= 70; i++) {
@@ -30,10 +30,10 @@ const InstagramProfileMockup = () => {
     ],
     posts_images: postsImages
   };
-  
+
   const [profileData, setProfileData] = useState(defaultProfile);
   const [bioText, setBioText] = useState(defaultProfile.bio.join('\n'));
-  
+
   // Load data from localStorage on initial render
   useEffect(() => {
     const savedData = localStorage.getItem('instagramProfileData');
@@ -85,7 +85,7 @@ const InstagramProfileMockup = () => {
     }));
   };
 
-  interface BioTextChangeEvent extends React.ChangeEvent<HTMLTextAreaElement> {}
+  interface BioTextChangeEvent extends React.ChangeEvent<HTMLTextAreaElement> { }
 
   const handleBioTextChange = (event: BioTextChangeEvent): void => {
     const value: string = event.target.value;
@@ -128,11 +128,11 @@ const InstagramProfileMockup = () => {
       if (!file) return;
 
       const reader = new FileReader();
-      
+
       reader.onload = () => {
         try {
           const imageDataUrl = reader.result;
-          
+
           if (type === 'profile') {
             handleChange('profilePicture', imageDataUrl);
           } else if (type === 'highlight' && index !== null) {
@@ -145,12 +145,12 @@ const InstagramProfileMockup = () => {
           alert("There was a problem processing the image. Please try another one.");
         }
       };
-      
+
       reader.onerror = () => {
         console.error("FileReader error");
         alert("There was a problem reading the file. Please try again.");
       };
-      
+
       reader.readAsDataURL(file);
     } catch (error) {
       console.error("Error in file upload handler:", error);
@@ -172,14 +172,14 @@ const InstagramProfileMockup = () => {
   const ProfilePicture = ({ size = 20, editable = false, onClick = null }) => (
     <div className="relative">
       <div className={`w-${size} h-${size} rounded-full overflow-hidden border border-gray-300`}>
-        <img 
-          src={profileData.profilePicture} 
+        <img
+          src={profileData.profilePicture}
           className="w-full h-full object-cover"
           alt="Profile"
-          />
+        />
       </div>
       {editable && (
-        <div 
+        <div
           className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-1"
         >
           <PlusCircle size={16} color="white" />
@@ -231,11 +231,11 @@ const InstagramProfileMockup = () => {
         {profileData.highlights.filter((h, i) => !showAddNew || i > 0).map((highlight, index) => (
           <div key={`highlight-${index}`} className="flex flex-col items-center">
             <div className="w-16 h-16 rounded-full border border-gray-300 overflow-hidden">
-              <img 
-                src={highlight.image} 
-                className="w-full h-full object-cover" 
+              <img
+                src={highlight.image}
+                className="w-full h-full object-cover"
                 alt={highlight.name}
-                />
+              />
             </div>
             <span className="text-xs mt-1">{highlight.name}</span>
           </div>
@@ -266,14 +266,14 @@ const InstagramProfileMockup = () => {
 
   // Posts grid - shared between views
   const PostsGrid = () => (
-    <div className="flex-1 overflow-y-auto">
+    <div className="flex-1">
       <div className="grid grid-cols-3 gap-0.5">
         {profileData.posts_images.map((image, index) => (
           <div key={`post-image-${index}`} className="aspect-square bg-gray-100 relative">
-            <img 
-              src={image} 
-              className="w-full h-full object-cover" 
-              alt={`Post ${index+1}`}
+            <img
+              src={image}
+              className="w-full h-full object-cover"
+              alt={`Post ${index + 1}`}
             />
             {/* Multi-image indicator for some posts */}
             {index % 3 === 0 && (
@@ -316,25 +316,25 @@ const InstagramProfileMockup = () => {
       <div className="bg-white p-4 max-h-screen overflow-y-auto">
         <div className="flex justify-between items-center mb-4 sticky top-0 bg-white pb-2 border-b">
           <h2 className="text-xl font-bold">Instagram Profile Configuration</h2>
-          <button 
+          <button
             onClick={() => setShowConfig(false)}
             className="px-4 py-2 bg-blue-500 text-white rounded"
           >
             Save & View Profile
           </button>
         </div>
-        
+
         <div className="space-y-6">
           {/* Profile picture */}
           <div className="flex flex-col items-center">
             <h3 className="text-lg font-medium mb-2">Profile Picture</h3>
             <div className="relative w-24 h-24 rounded-full mb-2 overflow-hidden border border-gray-300">
-              <img 
-                src={profileData.profilePicture} 
-                alt="Profile" 
+              <img
+                src={profileData.profilePicture}
+                alt="Profile"
                 className="w-full h-full object-cover"
               />
-              <button 
+              <button
                 onClick={() => {
                   const input = document.createElement('input');
                   input.type = 'file';
@@ -348,67 +348,67 @@ const InstagramProfileMockup = () => {
               </button>
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Username</label>
-            <input 
-              type="text" 
-              value={profileData.username} 
+            <input
+              type="text"
+              value={profileData.username}
               onChange={(e) => handleChange('username', e.target.value)}
               className="w-full p-2 border rounded"
             />
           </div>
-          
+
           <div className="flex items-center">
-            <input 
-              type="checkbox" 
-              checked={profileData.verified} 
+            <input
+              type="checkbox"
+              checked={profileData.verified}
               onChange={(e) => handleChange('verified', e.target.checked)}
               className="mr-2"
             />
             <label>Verified (blue checkmark)</label>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Full Name</label>
-            <input 
-              type="text" 
-              value={profileData.name} 
+            <input
+              type="text"
+              value={profileData.name}
               onChange={(e) => handleChange('name', e.target.value)}
               className="w-full p-2 border rounded"
             />
           </div>
-          
+
           <div className="grid grid-cols-3 gap-2">
             <div>
               <label className="block text-sm font-medium mb-1">Posts</label>
-              <input 
-                type="text" 
-                value={profileData.posts} 
+              <input
+                type="text"
+                value={profileData.posts}
                 onChange={(e) => handleChange('posts', e.target.value)}
                 className="w-full p-2 border rounded"
               />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Followers</label>
-              <input 
-                type="text" 
-                value={profileData.followers} 
+              <input
+                type="text"
+                value={profileData.followers}
                 onChange={(e) => handleChange('followers', e.target.value)}
                 className="w-full p-2 border rounded"
               />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Following</label>
-              <input 
-                type="text" 
-                value={profileData.following} 
+              <input
+                type="text"
+                value={profileData.following}
                 onChange={(e) => handleChange('following', e.target.value)}
                 className="w-full p-2 border rounded"
               />
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-2">Bio</label>
             <textarea
@@ -418,11 +418,11 @@ const InstagramProfileMockup = () => {
               placeholder="Your bio here..."
             />
           </div>
-          
+
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="block text-sm font-medium">Story Highlights</label>
-              <button 
+              <button
                 onClick={addHighlight}
                 className="px-2 py-1 bg-gray-200 text-gray-800 rounded text-sm"
               >
@@ -433,29 +433,29 @@ const InstagramProfileMockup = () => {
               {profileData.highlights.map((highlight, index) => (
                 <div key={`highlight-${index}`} className="border rounded p-2 flex flex-col">
                   <div className="flex mb-2">
-                    <input 
-                      type="text" 
-                      value={highlight.name} 
+                    <input
+                      type="text"
+                      value={highlight.name}
                       onChange={(e) => handleHighlightChange(index, 'name', e.target.value)}
                       className="flex-1 p-2 border rounded mr-2"
                       placeholder="Name"
                     />
-                    <button 
+                    <button
                       onClick={() => removeHighlight(index)}
                       className="px-2 py-1 bg-red-500 text-white rounded"
                     >
                       ×
                     </button>
                   </div>
-                  
+
                   <div className="flex flex-col items-center">
                     <div className="w-16 h-16 rounded-full overflow-hidden border border-gray-300 mb-2 relative">
-                      <img 
-                        src={highlight.image} 
-                        className="w-full h-full object-cover" 
+                      <img
+                        src={highlight.image}
+                        className="w-full h-full object-cover"
                         alt={highlight.name}
                       />
-                      <button 
+                      <button
                         onClick={() => {
                           const input = document.createElement('input');
                           input.type = 'file';
@@ -473,11 +473,11 @@ const InstagramProfileMockup = () => {
               ))}
             </div>
           </div>
-          
+
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="block text-sm font-medium">Posts</label>
-              <button 
+              <button
                 onClick={addPost}
                 className="px-2 py-1 bg-gray-200 text-gray-800 rounded text-sm"
               >
@@ -488,7 +488,7 @@ const InstagramProfileMockup = () => {
               {profileData.posts_images.map((image, index) => (
                 <div key={`post-${index}`} className="border rounded p-2">
                   <div className="mb-2 flex justify-end">
-                    <button 
+                    <button
                       onClick={() => removePost(index)}
                       className="px-1.5 py-0.5 bg-red-500 text-white rounded text-xs"
                     >
@@ -496,12 +496,12 @@ const InstagramProfileMockup = () => {
                     </button>
                   </div>
                   <div className="aspect-square relative overflow-hidden">
-                    <img 
-                      src={image} 
-                      alt={`Post ${index+1}`}
+                    <img
+                      src={image}
+                      alt={`Post ${index + 1}`}
                       className="w-full h-full object-cover"
-                      />
-                    <button 
+                    />
+                    <button
                       onClick={() => {
                         const input = document.createElement('input');
                         input.type = 'file';
@@ -534,7 +534,7 @@ const InstagramProfileMockup = () => {
         </div>
         <div className="flex items-center space-x-4">
           <div className="relative">
-            <div className="w-7 h-7 rounded-full bg-red-500 flex items-center justify-center text-white text-xs font-bold absolute -top-2 -right-2">9+</div>
+            <div className="w-8 h-5 rounded-full bg-red-500 flex items-center justify-center text-white text-xs font-bold absolute -top-2 -right-4">999+</div>
             <UserPlus size={24} />
           </div>
           <PlusSquare size={24} />
@@ -569,7 +569,9 @@ const InstagramProfileMockup = () => {
 
           {/* Action buttons */}
           <div className="grid grid-cols-3 gap-2 mt-3">
-            <button className="bg-gray-100 py-1.5 px-2 rounded-md text-sm font-medium col-span-1">
+            <button className="bg-gray-100 py-1.5 px-2 rounded-md text-sm font-medium col-span-1"
+            onClick={() => setShowConfig(true)}
+            >
               Editar
             </button>
             <button className="bg-gray-100 py-1.5 px-2 rounded-md text-sm font-medium col-span-1">
@@ -614,6 +616,7 @@ const InstagramProfileMockup = () => {
             </span>
           )}
         </div>
+
         <MoreHorizontal size={24} />
       </div>
       <div className="flex-1 overflow-y-auto">
