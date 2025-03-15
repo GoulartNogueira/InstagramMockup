@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { ProfileData, defaultProfile } from '../types';
 
 interface ProfileContextType {
@@ -18,3 +18,26 @@ export const ProfileContext = createContext<ProfileContextType>({
 
 // Custom hook to use the profile context
 export const useProfileContext = () => useContext(ProfileContext);
+
+// ProfileContextProvider component to provide the context
+export const ProfileContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [profileData, setProfileData] = useState<ProfileData>(defaultProfile);
+  const [viewingOwnProfile, setViewingOwnProfile] = useState(true);
+
+  const updateProfileData = (newData: ProfileData) => {
+    setProfileData(newData);
+  };
+
+  return (
+    <ProfileContext.Provider
+      value={{
+        profileData,
+        updateProfileData,
+        viewingOwnProfile,
+        setViewingOwnProfile,
+      }}
+    >
+      {children}
+    </ProfileContext.Provider>
+  );
+};
