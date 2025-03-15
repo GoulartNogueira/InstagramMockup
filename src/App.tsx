@@ -15,7 +15,6 @@ const InstagramProfileMockup = () => {
     username: 'murillo.smn',
     verified: false,
     name: 'Murillo Salles Nogueira',
-    posts: '20',
     followers: '1,1 mi',
     following: '811',
     bio: [
@@ -62,7 +61,6 @@ const InstagramProfileMockup = () => {
     username: string;
     verified: boolean;
     name: string;
-    posts: string;
     followers: string;
     following: string;
     bio: string[];
@@ -169,22 +167,18 @@ const InstagramProfileMockup = () => {
   };
 
   // Profile picture component - shared between views
-  const ProfilePicture = ({ size = 20, editable = false, onClick = null }) => (
+  const ProfilePicture = ({ size = 77 }) => (
     <div className="relative">
-      <div className={`w-${size} h-${size} rounded-full overflow-hidden border border-gray-300`}>
+      <div
+        className="rounded-full overflow-hidden border border-gray-300"
+        style={{ width: size, height: size }}
+      >
         <img
           src={profileData.profilePicture}
           className="w-full h-full object-cover"
           alt="Profile"
         />
       </div>
-      {editable && (
-        <div
-          className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-1"
-        >
-          <PlusCircle size={16} color="white" />
-        </div>
-      )}
     </div>
   );
 
@@ -192,7 +186,7 @@ const InstagramProfileMockup = () => {
   const ProfileStats = () => (
     <div className="flex-1 flex justify-around ml-4">
       <div className="text-center">
-        <div className="font-bold">{profileData.posts}</div>
+        <div className="font-bold">{profileData.posts_images.length.toString()}</div>
         <div className="text-sm">posts</div>
       </div>
       <div className="text-center">
@@ -272,7 +266,7 @@ const InstagramProfileMockup = () => {
             />
             {/* Multi-image indicator for some posts */}
             {index % 3 === 0 && (
-                <Copy size={16} className="absolute top-2 right-2" color="white" />
+              <Copy size={16} className="absolute top-2 right-2" color="white" />
             )}
           </div>
         ))}
@@ -540,15 +534,6 @@ const InstagramProfileMockup = () => {
           <div className="flex items-start">
             {/* Profile picture */}
             <ProfilePicture
-              size={20}
-              editable={true}
-              onClick={() => {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'image/*';
-                input.onchange = (e) => handleFileUpload(e, 'profile');
-                input.click();
-              }}
             />
 
             {/* Stats */}
@@ -561,7 +546,7 @@ const InstagramProfileMockup = () => {
           {/* Action buttons */}
           <div className="grid grid-cols-3 gap-2 mt-3">
             <button className="bg-gray-100 py-1.5 px-2 rounded-md text-sm font-medium col-span-1"
-            onClick={() => setShowConfig(true)}
+              onClick={() => setShowConfig(true)}
             >
               Editar
             </button>
@@ -600,16 +585,16 @@ const InstagramProfileMockup = () => {
           {profileData.verified && (
             <span className="relative inline-block ml-1 w-4 h-4">
               <BadgeCheck
-              className="absolute inset-0"
-              size={16}
-              fill="#0095F6"
-              color="#FFFFFF"
+                className="absolute inset-0"
+                size={16}
+                fill="#0095F6"
+                color="#FFFFFF"
               />
               <Badge
-              className="absolute inset-0"
-              size={16}
-              strokeWidth={3}
-              color="#0095F6"
+                className="absolute inset-0"
+                size={16}
+                strokeWidth={3}
+                color="#0095F6"
               />
             </span>
           )}
@@ -623,7 +608,7 @@ const InstagramProfileMockup = () => {
         <div className="px-4 py-2">
           <div className="flex items-start">
             {/* Profile picture */}
-            <ProfilePicture size={20} />
+            <ProfilePicture />
 
             {/* Stats */}
             <ProfileStats />
