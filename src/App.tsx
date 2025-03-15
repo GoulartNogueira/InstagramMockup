@@ -543,53 +543,54 @@ const InstagramProfileMockup = () => {
           </button>
         </div>
       </div>
-      
-      {/* Profile info section */}
-      <div className="px-4 py-2">
-        <div className="flex items-start">
-          {/* Profile picture */}
-          <ProfilePicture 
-            size={20} 
-            editable={true} 
-            onClick={() => {
-              const input = document.createElement('input');
-              input.type = 'file';
-              input.accept = 'image/*';
-              input.onchange = (e) => handleFileUpload(e, 'profile');
-              input.click();
-            }}
-          />
-          
-          {/* Stats */}
-          <ProfileStats />
+      <div className="flex-1 overflow-y-auto">
+        {/* Profile info section */}
+        <div className="px-4 py-2">
+          <div className="flex items-start">
+            {/* Profile picture */}
+            <ProfilePicture
+              size={20}
+              editable={true}
+              onClick={() => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.onchange = (e) => handleFileUpload(e, 'profile');
+                input.click();
+              }}
+            />
+
+            {/* Stats */}
+            <ProfileStats />
+          </div>
+
+          {/* Name and bio */}
+          <ProfileBio />
+
+          {/* Action buttons */}
+          <div className="grid grid-cols-3 gap-2 mt-3">
+            <button className="bg-gray-100 py-1.5 px-2 rounded-md text-sm font-medium col-span-1">
+              Editar
+            </button>
+            <button className="bg-gray-100 py-1.5 px-2 rounded-md text-sm font-medium col-span-1">
+              Compartilhar perfil
+            </button>
+            <button className="bg-gray-100 py-1.5 px-2 rounded-md text-sm font-medium col-span-1 flex items-center justify-center">
+              <User size={16} />
+            </button>
+          </div>
         </div>
-        
-        {/* Name and bio */}
-        <ProfileBio />
-        
-        {/* Action buttons */}
-        <div className="grid grid-cols-3 gap-2 mt-3">
-          <button className="bg-gray-100 py-1.5 px-2 rounded-md text-sm font-medium col-span-1">
-            Editar
-          </button>
-          <button className="bg-gray-100 py-1.5 px-2 rounded-md text-sm font-medium col-span-1">
-            Compartilhar perfil
-          </button>
-          <button className="bg-gray-100 py-1.5 px-2 rounded-md text-sm font-medium col-span-1 flex items-center justify-center">
-            <User size={16} />
-          </button>
-        </div>
+
+        {/* Story highlights */}
+        <StoryHighlights showAddNew={true} />
+
+        {/* Content tabs */}
+        <ContentTabs />
+
+        {/* Posts grid */}
+        <PostsGrid />
+
       </div>
-      
-      {/* Story highlights */}
-      <StoryHighlights showAddNew={true} />
-      
-      {/* Content tabs */}
-      <ContentTabs />
-      
-      {/* Posts grid */}
-      <PostsGrid />
-      
       {/* Bottom navigation */}
       <BottomNavigation />
     </div>
