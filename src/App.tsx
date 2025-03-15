@@ -171,8 +171,14 @@ const InstagramProfileMockup = () => {
   };
 
   // Profile picture component - shared between views
-  const ProfilePicture = ({ size = 77 }) => (
-    <div className="relative">
+  const ProfilePicture = ({ size = 77, mode = 'view' }) => (
+    <div className="relative" onClick={mode === 'edit' ? () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = (e) => handleFileUpload(e, 'profile');
+      input.click();
+    } : undefined}>
       <div
         className="rounded-full overflow-hidden border border-gray-300"
         style={{ width: size, height: size }}
@@ -269,7 +275,7 @@ const InstagramProfileMockup = () => {
               alt={`Post ${index + 1}`}
             />
             {/* Multi-image indicator for some posts */}
-            {index % 3 === 0 && (
+            {index % 7 === 0 && (
               <Copy size={16} className="absolute top-2 right-2" color="white" />
             )}
           </div>
@@ -322,8 +328,6 @@ const InstagramProfileMockup = () => {
                 src={profileData.profilePicture}
                 alt="Profile"
                 className="w-full h-full object-cover"
-              />
-              <button
                 onClick={() => {
                   const input = document.createElement('input');
                   input.type = 'file';
@@ -331,11 +335,11 @@ const InstagramProfileMockup = () => {
                   input.onchange = (e) => handleFileUpload(e, 'profile');
                   input.click();
                 }}
-                className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-1"
-              >
-                <Camera size={16} color="white" />
-              </button>
+              />
             </div>
+            <button className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-1">
+              <Camera size={12} color="white" />
+            </button>
           </div>
 
           <div>
@@ -443,8 +447,6 @@ const InstagramProfileMockup = () => {
                         src={highlight.image}
                         className="w-full h-full object-cover"
                         alt={highlight.name}
-                      />
-                      <button
                         onClick={() => {
                           const input = document.createElement('input');
                           input.type = 'file';
@@ -452,10 +454,7 @@ const InstagramProfileMockup = () => {
                           input.onchange = (e) => handleFileUpload(e, 'highlight', index);
                           input.click();
                         }}
-                        className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-1"
-                      >
-                        <Camera size={12} color="white" />
-                      </button>
+                      />
                     </div>
                   </div>
                 </div>
@@ -537,7 +536,7 @@ const InstagramProfileMockup = () => {
         <div className="px-4 py-2">
           <div className="flex items-start">
             {/* Profile picture */}
-            <ProfilePicture
+            <ProfilePicture mode="edit"
             />
 
             {/* Stats */}
