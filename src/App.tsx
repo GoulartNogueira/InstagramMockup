@@ -24,8 +24,11 @@ const InstagramProfileMockup = () => {
     ],
     profilePicture: 'https://picsum.photos/id/1005/200',
     highlights: [
-      { name: 'Pet', image: 'https://picsum.photos/id/237/200' },
-      { name: 'Viagens', image: 'https://picsum.photos/id/1036/200' },
+      { name: '❤️', image: 'https://picsum.photos/id/237/200' },
+      { name: 'norway24', image: 'https://picsum.photos/id/1036/200' },
+      { name: 'viena24', image: 'https://picsum.photos/id/953/200' },
+      { name: 'rj', image: 'https://picsum.photos/id/849/200' },
+      { name: '🎉', image: 'https://gdbrasil.b-cdn.net/wp-content/uploads/2018/04/Rio-de-Janeiro-Baladas-.jpg' },
     ],
     posts_images: postsImages
   };
