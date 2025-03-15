@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Camera, Home, Search, PlusSquare, Play, User, Settings, Mail, MessageCircle, MoreHorizontal, ChevronLeft, PlusCircle, UserPlus } from 'lucide-react';
+import { Camera, Home, Search, PlusSquare, Play, User, MoreHorizontal, ChevronLeft, PlusCircle, UserPlus } from 'lucide-react';
 
 const InstagramProfileMockup = () => {
   const [showConfig, setShowConfig] = useState(false);
   const [viewingOwnProfile, setViewingOwnProfile] = useState(true);
-  const fileInputRef = useRef(null);
   
   // Default profile data
+  const postsImages: string[] = [];
+  for (let i = 10; i <= 70; i++) {
+    postsImages.push(`https://picsum.photos/id/${i}/200`);
+  }
+
   const defaultProfile = {
     username: 'murillo.smn',
     verified: false,
@@ -24,14 +28,7 @@ const InstagramProfileMockup = () => {
       { name: 'Novo', image: '' },
       { name: '.', image: 'https://picsum.photos/id/1036/200' },
     ],
-    posts_images: [
-      'https://picsum.photos/id/1/200',
-      'https://picsum.photos/id/2/200',
-      'https://picsum.photos/id/3/200',
-      'https://picsum.photos/id/4/200',
-      'https://picsum.photos/id/5/200',
-      'https://picsum.photos/id/6/200',
-    ]
+    posts_images: postsImages
   };
   
   const [profileData, setProfileData] = useState(defaultProfile);
@@ -56,20 +53,52 @@ const InstagramProfileMockup = () => {
     localStorage.setItem('instagramProfileData', JSON.stringify(profileData));
   }, [profileData]);
 
-  const handleChange = (field, value) => {
-    setProfileData(prev => ({
+  interface Highlight {
+    name: string;
+    image: string;
+  }
+
+  interface ProfileData {
+    username: string;
+    verified: boolean;
+    name: string;
+    posts: string;
+    followers: string;
+    following: string;
+    bio: string[];
+    profilePicture: string;
+    highlights: Highlight[];
+    posts_images: string[];
+  }
+
+  type ProfileField = keyof ProfileData;
+
+  interface Highlight {
+    name: string;
+    image: string;
+  }
+
+  const handleChange = (field: ProfileField, value: ProfileData[ProfileField]) => {
+    setProfileData((prev: ProfileData) => ({
       ...prev,
       [field]: value
     }));
   };
 
-  const handleBioTextChange = (event) => {
-    const value = event.target.value;
+  interface BioTextChangeEvent extends React.ChangeEvent<HTMLTextAreaElement> {}
+
+  const handleBioTextChange = (event: BioTextChangeEvent): void => {
+    const value: string = event.target.value;
     setBioText(value);
     handleChange('bio', value.split('\n'));
   };
 
-  const handleHighlightChange = (index, field, value) => {
+
+  const handleHighlightChange = (
+    index: number,
+    field: keyof Highlight,
+    value: string
+  ): void => {
     const newHighlights = [...profileData.highlights];
     newHighlights[index] = {
       ...newHighlights[index],
@@ -82,18 +111,18 @@ const InstagramProfileMockup = () => {
     handleChange('highlights', [...profileData.highlights, { name: 'New', image: 'https://picsum.photos/id/237/200' }]);
   };
 
-  const removeHighlight = (index) => {
+  const removeHighlight = (index: number) => {
     const newHighlights = profileData.highlights.filter((_, i) => i !== index);
     handleChange('highlights', newHighlights);
   };
 
-  const handlePostImageChange = (index, value) => {
+  const handlePostImageChange = (index: number, value: string | ArrayBuffer | null) => {
     const newPosts = [...profileData.posts_images];
-    newPosts[index] = value;
+    newPosts[index] = typeof value === 'string' ? value : '';
     handleChange('posts_images', newPosts);
   };
 
-  const handleFileUpload = (event, type, index = null) => {
+  const handleFileUpload = (event: Event, type: string, index = null) => {
     try {
       const file = event.target.files[0];
       if (!file) return;
@@ -134,7 +163,7 @@ const InstagramProfileMockup = () => {
     handleChange('posts_images', [...profileData.posts_images, `https://picsum.photos/id/${randomId}/200`]);
   };
 
-  const removePost = (index) => {
+  const removePost = (index: number) => {
     const newPosts = profileData.posts_images.filter((_, i) => i !== index);
     handleChange('posts_images', newPosts);
   };
@@ -147,13 +176,11 @@ const InstagramProfileMockup = () => {
           src={profileData.profilePicture} 
           className="w-full h-full object-cover"
           alt="Profile"
-          onError={(e) => {e.target.onerror = null; e.target.src = 'https://picsum.photos/id/1005/200'}}
-        />
+          />
       </div>
       {editable && (
         <div 
           className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-1"
-          onClick={onClick}
         >
           <PlusCircle size={16} color="white" />
         </div>
@@ -208,8 +235,7 @@ const InstagramProfileMockup = () => {
                 src={highlight.image} 
                 className="w-full h-full object-cover" 
                 alt={highlight.name}
-                onError={(e) => {e.target.onerror = null; e.target.src = 'https://picsum.photos/id/1036/200'}}
-              />
+                />
             </div>
             <span className="text-xs mt-1">{highlight.name}</span>
           </div>
@@ -248,7 +274,6 @@ const InstagramProfileMockup = () => {
               src={image} 
               className="w-full h-full object-cover" 
               alt={`Post ${index+1}`}
-              onError={(e) => {e.target.onerror = null; e.target.src = `https://picsum.photos/id/${(index + 10)}/200`}}
             />
             {/* Multi-image indicator for some posts */}
             {index % 3 === 0 && (
@@ -308,7 +333,6 @@ const InstagramProfileMockup = () => {
                 src={profileData.profilePicture} 
                 alt="Profile" 
                 className="w-full h-full object-cover"
-                onError={(e) => {e.target.onerror = null; e.target.src = 'https://picsum.photos/id/1005/200'}}
               />
               <button 
                 onClick={() => {
@@ -430,7 +454,6 @@ const InstagramProfileMockup = () => {
                         src={highlight.image} 
                         className="w-full h-full object-cover" 
                         alt={highlight.name}
-                        onError={(e) => {e.target.onerror = null; e.target.src = 'https://picsum.photos/id/1036/200'}}
                       />
                       <button 
                         onClick={() => {
@@ -477,8 +500,7 @@ const InstagramProfileMockup = () => {
                       src={image} 
                       alt={`Post ${index+1}`}
                       className="w-full h-full object-cover"
-                      onError={(e) => {e.target.onerror = null; e.target.src = `https://picsum.photos/id/${(index + 10)}/200`}}
-                    />
+                      />
                     <button 
                       onClick={() => {
                         const input = document.createElement('input');
