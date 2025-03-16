@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="128" fill="#fff" />
+  
+  <!-- Instagram gradient background -->
+  <linearGradient id="instaGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#FFDC80" />
+    <stop offset="8.333%" stop-color="#FCAF45" />
+    <stop offset="16.667%" stop-color="#F77737" />
+    <stop offset="25%" stop-color="#F56040" />
+    <stop offset="33.333%" stop-color="#FD1D1D" />
+    <stop offset="41.667%" stop-color="#E1306C" />
+    <stop offset="50%" stop-color="#C13584" />
+    <stop offset="58.333%" stop-color="#833AB4" />
+    <stop offset="66.667%" stop-color="#5851DB" />
+    <stop offset="75%" stop-color="#405DE6" />
+    <stop offset="83.333%" stop-color="#2D3FAE" />
+    <stop offset="91.667%" stop-color="#0095F6" />
+    <stop offset="100%" stop-color="#0095F6" />
+  </linearGradient>
+  
+  <rect width="512" height="512" rx="128" fill="url(#instaGradient)" />
+  
+  <!-- Camera outline -->
+  <rect x="128" y="128" width="256" height="256" rx="64" fill="none" stroke="white" stroke-width="24" />
+  
+  <!-- Camera lens -->
+  <circle cx="256" cy="256" r="64" fill="none" stroke="white" stroke-width="24" />
+  
+  <!-- Flash dot -->
+  <circle cx="325" cy="183" r="16" fill="white" />
+</svg>
