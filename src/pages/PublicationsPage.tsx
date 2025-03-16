@@ -18,7 +18,7 @@ const PublicationsPage: React.FC = () => {
       {profileData.posts_images.map((image, index) => (
         <div
           key={`post-image-${index}`}
-          ref={(el) => (photoRefs.current[index] = el)}
+          ref={(el: HTMLDivElement | null) => (photoRefs.current[index] = el)}
           className="w-full max-w-md mb-4"
         >
           <img
