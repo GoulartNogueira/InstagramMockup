@@ -60,6 +60,12 @@ const ConfigPage: React.FC = () => {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    // Check if the uploaded file is an image
+    if (!file.type.startsWith('image/')) {
+      alert('Please upload a valid image file.');
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = () => {
       const imageDataUrl = reader.result as string;
