@@ -29,7 +29,7 @@ export interface Highlight {
     username: 'famous_person',
     verified: true,
     name: 'Famous Person',
-    followers: '1,1 mi',
+    followers: '1.1M',
     following: '811',
     bio: [
       '🎧| Dj • Modelo • 🇧🇷 BBB16',
