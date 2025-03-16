@@ -9,7 +9,7 @@ const PublicationsPage: React.FC = () => {
 
   useEffect(() => {
     if (photoIndex && photoRefs.current[parseInt(photoIndex)]) {
-      photoRefs.current[parseInt(photoIndex)]?.scrollIntoView({ behavior: 'smooth' });
+      photoRefs.current[parseInt(photoIndex)]?.scrollIntoView({  });
     }
   }, [photoIndex]);
 
@@ -18,11 +18,13 @@ const PublicationsPage: React.FC = () => {
       {profileData.posts_images.map((image, index) => (
         <div
           key={`post-image-${index}`}
-          ref={(el: HTMLDivElement | null) => (photoRefs.current[index] = el)}
+          ref={(el: HTMLDivElement | null) => {
+            photoRefs.current[index] = el;
+          }}
           className="w-full max-w-md mb-4"
         >
           <img
-            src={image}
+            src={image.includes("picsum") ?  image.replace(/\/200$/, "/600") : image}
             className="w-full h-auto object-cover"
             alt={`Post ${index + 1}`}
           />
