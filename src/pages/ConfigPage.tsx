@@ -80,6 +80,10 @@ const ConfigPage: React.FC = () => {
         handleChange('posts_images', newPosts);
       }
     };
+
+    reader.onerror = () => {
+      alert('Error uploading the image. Please try again.');
+    };
     
     reader.readAsDataURL(file);
   };
@@ -102,6 +106,7 @@ const ConfigPage: React.FC = () => {
   // Save changes and navigate back
   const saveChanges = () => {
     updateProfileData(localData);
+    localStorage.setItem('instagramProfileData', JSON.stringify(localData));
     navigate('/');
   };
 

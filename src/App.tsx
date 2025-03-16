@@ -24,7 +24,11 @@ const App: React.FC = () => {
 
   // Save data to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('instagramProfileData', JSON.stringify(profileData));
+    try {
+      localStorage.setItem('instagramProfileData', JSON.stringify(profileData));
+    } catch (e) {
+      console.error("Error saving data:", e);
+    }
   }, [profileData]);
 
   // Update profile data
