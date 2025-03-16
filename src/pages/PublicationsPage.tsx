@@ -13,7 +13,86 @@ interface PostData {
   timestamp: string;
   liked: boolean;
   saved: boolean;
+  likedBy: string;
 }
+
+// Array of motivational captions
+const CAPTIONS = [
+  "Embracing every moment of this beautiful journey. ✨",
+  "Making sustainable choices for a better tomorrow. 🌱",
+  "Innovation starts with a single idea. Let's build the future together.",
+  "Quality over quantity, always.",
+  "Committed to positive change in everything we do. 💫",
+  "The journey of a thousand miles begins with a single step. #Motivation",
+  "Turning dreams into reality, one day at a time. 🌈",
+  "Behind every success is a story of dedication.",
+  "Finding beauty in simplicity. ✨",
+  "Making a difference through mindful choices. 🌍",
+  "Stronger together. Building communities that last.",
+  "Pushing boundaries and redefining possibilities.",
+  "The best investment? Knowledge and growth. 📈",
+  "Sustainable solutions for a changing world. 🌱",
+  "Creating moments that matter. ❤️",
+  "Excellence is not a skill, it's an attitude.",
+  "Connecting people with purpose. 🤝",
+  "Small changes lead to big results. #Progress",
+  "Authenticity is our foundation. Always real, always us.",
+  "Rising to challenges and embracing opportunities.",
+  "Today's efforts are tomorrow's success. 💪",
+  "Driving innovation through collaboration. #TeamWork",
+  "Celebrating diversity in all its forms. 🎉",
+  "Building a legacy of positive impact.",
+  "Every challenge is an opportunity in disguise.",
+  "Quality isn't just a standard—it's our promise.",
+  "Empowering communities through sustainable practices. 🌿",
+  "The future belongs to those who believe in their dreams.",
+  "Growth happens outside your comfort zone. #Challenge",
+  "Turning vision into action, one step at a time.",
+  "Striving for excellence in everything we touch. ✨",
+  "Creating ripples of positive change across the globe. 🌊",
+  "Behind every product is a story of passion and purpose.",
+  "Committed to making a difference, every single day.",
+  "Building bridges, not walls. #Connection",
+  "Innovation is the heart of evolution. 💡",
+  "Cultivating relationships that stand the test of time.",
+  "Progress over perfection. #Growth",
+  "Inspired by nature, driven by purpose. 🍃",
+  "The best view comes after the hardest climb.",
+  "Creating a better world for future generations. 🌎",
+  "Every ending is a new beginning. #NewChapter",
+  "Empowering others is the greatest success.",
+  "Living our values in everything we do.",
+  "Simplicity is the ultimate sophistication. ✨",
+  "Turning challenges into opportunities since day one.",
+  "Building a sustainable future, one choice at a time. 🌱",
+  "Dream big, work hard, stay focused.",
+  "Finding joy in the journey, not just the destination. 🛤️",
+  "Making a positive impact, one day at a time."
+];
+
+// Array of usernames for "liked by"
+const USERNAMES = [
+  "gilsonluiznogueira", "andre.g.n", "maria_silva", "joao.costa", 
+  "ana.beatriz", "pedro_santos", "juliana.oliveira", "carlos_1992",
+  "fernanda.lima", "rafael_souza", "camila.mendes", "lucas_oliv",
+  "beatriz.azevedo", "leonardo_soares", "amanda.ferreira", "bruno_reis",
+  "larissa.castro", "marcelo_82", "bianca.martins", "thiago_rodrigues",
+  "isadora.campos", "roberto_alves", "gabriela.dias", "felipe_pereira",
+  "natalia.cardoso", "gustavo_almeida", "renata.barbosa", "diego_lopes",
+  "carolina.ribeiro", "vinicius_carvalho"
+];
+
+// Helper function to get a random item from an array
+const getRandomItem = (array: any[]) => {
+  return array[Math.floor(Math.random() * array.length)];
+};
+
+// Helper function to generate dates going back from today
+const generateDate = (daysBack: number): string => {
+  const date = new Date();
+  date.setDate(date.getDate() - daysBack);
+  return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+};
 
 const PublicationsPage: React.FC = () => {
   const { profileData } = useProfileContext();
@@ -23,16 +102,19 @@ const PublicationsPage: React.FC = () => {
   
   // Generate post data for each image in the profile
   const [posts, setPosts] = useState<PostData[]>(() => 
-    profileData.posts_images.map((image, index) => ({
-      id: index,
-      image: image,
-      likes: Math.floor(Math.random() * 100000) + 5000,
-      caption: "Our investment in regenerative agriculture is strengthening our supply chain and making the business more resilient.",
-      comments: Math.floor(Math.random() * 500) + 5,
-      timestamp: "February 27",
-      liked: false,
-      saved: false
-    }))
+    profileData.posts_images.map((image, index) => {
+      return {
+        id: index,
+        image: image,
+        likes: Math.floor(Math.random() * 10000) + 100,
+        caption: getRandomItem(CAPTIONS),
+        comments: Math.floor(Math.random() * 50) + 5,
+        timestamp: generateDate(index * 7), // Each post is 7 days apart
+        liked: false,
+        saved: false,
+        likedBy: getRandomItem(USERNAMES),
+      };
+    })
   );
   
   useEffect(() => {
@@ -68,6 +150,16 @@ const PublicationsPage: React.FC = () => {
       }
       return post;
     }));
+  };
+
+  // Helper function to format numbers (e.g., 1500 -> 1.5K)
+  const formatNumber = (num: number): string => {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'K';
+    }
+    return num.toString();
   };
 
   return (
@@ -155,9 +247,21 @@ const PublicationsPage: React.FC = () => {
               </button>
             </div>
 
-            {/* Likes count */}
+            {/* Likes count and liked by */}
             <div className="px-3 pb-1">
-              <p className="font-semibold">Liked by <span>hedernilce</span> and others</p>
+              <div className="flex items-center mb-1">
+                <div className="flex -space-x-2 mr-2">
+                  {/* Show 3 random profile pictures */}
+                  {[...Array(3)].map((_, i) => (
+                    <div key={`liker-${i}`} className="w-5 h-5 rounded-full overflow-hidden border border-black">
+                      {renderProfileImage(i)}
+                    </div>
+                  ))}
+                </div>
+                <p className="font-medium">
+                  Liked by <span className="font-semibold">{post.likedBy}</span> and <span className="font-semibold">{formatNumber(post.likes)} others</span>
+                </p>
+              </div>
             </div>
 
             {/* Caption */}
@@ -165,7 +269,9 @@ const PublicationsPage: React.FC = () => {
               <p>
                 <span className="font-semibold mr-1">{profileData.username}</span>
                 {post.caption} 
-                <span className="text-gray-500 block mt-1">more</span>
+                {post.caption.length > 100 && (
+                  <span className="text-gray-500 block mt-1">more</span>
+                )}
               </p>
             </div>
 
@@ -188,6 +294,18 @@ const PublicationsPage: React.FC = () => {
       <div className="h-12"></div>
     </div>
   );
+
+  function renderProfileImage(i: number) {
+    const randomImage = Math.floor(Math.random() * 100);
+    const gender = Math.random() < 0.5 ? 'men' : 'women';
+    return (
+      <img
+        src={`https://randomuser.me/api/portraits/thumb/${gender}/${randomImage}.jpg`}
+        alt={`Liker ${i + 1}`}
+        className="w-full h-full object-cover"
+      />
+    );
+  }
 };
 
 export default PublicationsPage;
