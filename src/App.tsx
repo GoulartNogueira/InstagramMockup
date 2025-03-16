@@ -4,6 +4,7 @@ import ProfileView from './pages/ProfileView';
 import ConfigPage from './pages/ConfigPage';
 import { ProfileData, defaultProfile } from './types';
 import { ProfileContext } from './context/ProfileContext';
+import PublicationsPage from './pages/PublicationsPage';
 
 const App: React.FC = () => {
   const [viewingOwnProfile, setViewingOwnProfile] = useState(true);
@@ -49,6 +50,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<ProfileView />} />
           <Route path="/config" element={<ConfigPage />} />
+          <Route path="/publicacoes/:photoIndex" element={<PublicationsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
