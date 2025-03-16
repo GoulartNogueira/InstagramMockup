@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProfileContext } from '../context/ProfileContext';
 import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, ChevronLeft } from 'lucide-react';
-import VerifiedBadge from '../components/verifiedBadge';
+import VerifiedBadge from '../components/VerifiedBadge';
 
 // New interface for post data
 interface PostData {

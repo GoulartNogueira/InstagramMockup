@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MoreHorizontal, ChevronLeft, UserPlus, PlusSquare, BadgeCheck, Badge } from 'lucide-react';
+import { MoreHorizontal, ChevronLeft, UserPlus, PlusSquare } from 'lucide-react';
+import VerifiedBadge from './VerifiedBadge';
 
 interface ProfileHeaderProps {
   username: string;
@@ -49,18 +50,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <span className="ml-4 text-lg font-semibold">{username}</span>
           {verified && (
             <span className="relative inline-block ml-1 w-4 h-4">
-              <BadgeCheck
-                className="absolute inset-0"
-                size={16}
-                fill="#0095F6"
-                color="#FFFFFF"
-              />
-              <Badge
-                className="absolute inset-0"
-                size={16}
-                strokeWidth={3}
-                color="#0095F6"
-              />
+              <VerifiedBadge />
             </span>
           )}
         </div>

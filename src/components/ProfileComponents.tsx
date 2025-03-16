@@ -1,5 +1,6 @@
 import React from 'react';
-import { Camera, Home, Search, PlusSquare, Play, User, MoreHorizontal, ChevronLeft, UserPlus, BadgeCheck, Badge, Grid } from 'lucide-react';
+import { Camera, Home, Search, PlusSquare, Play, User, MoreHorizontal, ChevronLeft, UserPlus, Grid } from 'lucide-react';
+import VerifiedBadge from './VerifiedBadge';
 
 // Profile Header Component
 interface ProfileHeaderProps {
@@ -9,8 +10,8 @@ interface ProfileHeaderProps {
   navigateToConfig?: () => void;
 }
 
-export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ 
-  username, isOwnProfile, verified, navigateToConfig 
+export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
+  username, isOwnProfile, verified, navigateToConfig
 }) => {
   if (isOwnProfile) {
     return (
@@ -39,18 +40,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <span className="ml-4 text-lg font-semibold">{username}</span>
           {verified && (
             <span className="relative inline-block ml-1 w-4 h-4">
-              <BadgeCheck
-                className="absolute inset-0"
-                size={16}
-                fill="#0095F6"
-                color="#FFFFFF"
-              />
-              <Badge
-                className="absolute inset-0"
-                size={16}
-                strokeWidth={3}
-                color="#0095F6"
-              />
+              <VerifiedBadge />
             </span>
           )}
         </div>
@@ -68,8 +58,8 @@ interface ProfilePictureProps {
   onImageChange?: (file: File) => void;
 }
 
-export const ProfilePicture: React.FC<ProfilePictureProps> = ({ 
-  profilePicture, size = 77, editable = false, onImageChange 
+export const ProfilePicture: React.FC<ProfilePictureProps> = ({
+  profilePicture, size = 77, editable = false, onImageChange
 }) => {
   const handleImageClick = () => {
     if (editable && onImageChange) {
@@ -167,8 +157,8 @@ interface BottomNavigationProps {
   setViewingOwnProfile: (value: boolean) => void;
 }
 
-export const BottomNavigation: React.FC<BottomNavigationProps> = ({ 
-  viewingOwnProfile, setViewingOwnProfile 
+export const BottomNavigation: React.FC<BottomNavigationProps> = ({
+  viewingOwnProfile, setViewingOwnProfile
 }) => (
   <div className="border-t border-gray-300 flex justify-around py-2 mt-auto">
     <button onClick={() => setViewingOwnProfile(false)}>
