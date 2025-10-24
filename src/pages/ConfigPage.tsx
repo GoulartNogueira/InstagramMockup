@@ -106,7 +106,6 @@ const ConfigPage: React.FC = () => {
   // Save changes and navigate back
   const saveChanges = () => {
     updateProfileData(localData);
-    localStorage.setItem('instagramProfileData', JSON.stringify(localData));
     navigate('/');
   };
 
